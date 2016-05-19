@@ -4,6 +4,7 @@ var browserSync = require('browser-sync').create();
 var gulp = require("gulp");
 
 var $ = require('gulp-load-plugins')();
+var dotnet = require('./tasks/dotnet');
 var argv = require('yargs').argv;
 var opn = require('opn');
 var runSequence = require('run-sequence');
@@ -28,6 +29,23 @@ gulp.task('default', (cb) => {
   cb();
 });
 
-gulp.task('setup', 'Sets up local dev environment', function(cb) {
-  runSequence(['bower', 'dotnetdeps'], cb);
+gulp.task('setup', (cb) => {
+  runSequence(['bower', 'dotnet:restore'], cb);
+});
+
+// Install/update bower components.
+gulp.task('bower', false, (cb) => {
+  let proc = spawn('./node_modules/bower/bin/bower', 
+    ['install'],
+    {
+      cwd: './', 
+      stdio: 'inherit'
+    });
+  proc.on('close', function() {
+    cb();
+  });
+});
+
+gulp.task('dotnet:restore', (cb) => {
+  dotnet.restore(cb);
 });

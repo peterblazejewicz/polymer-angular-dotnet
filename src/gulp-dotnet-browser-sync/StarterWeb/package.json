@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "devDependencies": {
+    "bower": "^1.7.9",
     "browser-sync": "^2.12.8",
     "eslint": "^2.10.2",
     "gulp": "3.9.1",
