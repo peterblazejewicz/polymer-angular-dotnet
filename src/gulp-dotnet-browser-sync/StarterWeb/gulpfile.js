@@ -1,45 +1,33 @@
-/// <binding Clean='clean' />
 "use strict";
 
-var gulp = require("gulp"),
-    rimraf = require("rimraf"),
-    concat = require("gulp-concat"),
-    cssmin = require("gulp-cssmin"),
-    uglify = require("gulp-uglify");
+var browserSync = require('browser-sync').create();
+var gulp = require("gulp");
 
-var webroot = "./wwwroot/";
+var $ = require('gulp-load-plugins')();
+var argv = require('yargs').argv;
+var opn = require('opn');
+var runSequence = require('run-sequence');
+var spawn = require('child_process').spawn;
 
-var paths = {
-    js: webroot + "js/**/*.js",
-    minJs: webroot + "js/**/*.min.js",
-    css: webroot + "css/**/*.css",
-    minCss: webroot + "css/**/*.min.css",
-    concatJsDest: webroot + "js/site.min.js",
-    concatCssDest: webroot + "css/site.min.css"
-};
+// reload is a noop unless '--reload' cmd line arg is specified.
+// reload has no effect without '--watch'.
+let reload = $.util.noop;
+if (argv.reload) {
+  reload = browserSync.reload;
+  // reload doesn't make sense w/o watch
+  argv.watch = true;
+}
 
-gulp.task("clean:js", function (cb) {
-    rimraf(paths.concatJsDest, cb);
+// openUrl is a noop unless '--open' cmd line arg is specified.
+var openUrl = () => {};
+if (argv.open) {
+  openUrl = opn;
+}
+
+gulp.task('default', (cb) => {
+  cb();
 });
 
-gulp.task("clean:css", function (cb) {
-    rimraf(paths.concatCssDest, cb);
+gulp.task('setup', 'Sets up local dev environment', function(cb) {
+  runSequence(['bower', 'dotnetdeps'], cb);
 });
-
-gulp.task("clean", ["clean:js", "clean:css"]);
-
-gulp.task("min:js", function () {
-    return gulp.src([paths.js, "!" + paths.minJs], { base: "." })
-        .pipe(concat(paths.concatJsDest))
-        .pipe(uglify())
-        .pipe(gulp.dest("."));
-});
-
-gulp.task("min:css", function () {
-    return gulp.src([paths.css, "!" + paths.minCss])
-        .pipe(concat(paths.concatCssDest))
-        .pipe(cssmin())
-        .pipe(gulp.dest("."));
-});
-
-gulp.task("min", ["min:js", "min:css"]);
