@@ -235,3 +235,6 @@ _Pvt_Extensions
 
 # client side
 wwwroot/lib
+
+# typings
+typings/
