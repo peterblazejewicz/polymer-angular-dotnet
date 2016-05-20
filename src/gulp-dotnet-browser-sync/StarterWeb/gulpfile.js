@@ -49,3 +49,7 @@ gulp.task('bower', false, (cb) => {
 gulp.task('dotnet:restore', (cb) => {
   dotnet.restore(cb);
 });
+
+gulp.task('dotnet:serve', (cb) => {
+  dotnet.run({}, cb);
+})

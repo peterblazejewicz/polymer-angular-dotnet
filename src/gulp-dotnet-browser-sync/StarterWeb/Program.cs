@@ -1,8 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 
 namespace StarterWeb
@@ -11,7 +8,10 @@ namespace StarterWeb
     {
         public static void Main(string[] args)
         {
+            var urls = Environment
+          .GetEnvironmentVariable("ASPNETCORE_URLS") ?? "http://localhost:5000";
             var host = new WebHostBuilder()
+                .UseUrls(urls)
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()

@@ -14,6 +14,23 @@ let restore = (callback) => {
   }).on('exit', callback);
 }
 
+
+let run = (options, callback) => {
+  let args = ['run'];
+  let env = process.env;
+  env.ASPNETCORE_URLS = 'http://localhost:8080';
+  let dotnet = spawn('dotnet', args, {
+    stdio: 'inherit',
+    env: env
+  });
+  if (!options.reload) {
+    console.log('The app should now be available at');
+    dotnet.on('close', callback);
+  }
+}
+
+
 module.exports = {
-  restore: restore
+  restore: restore,
+  run: run
 }
