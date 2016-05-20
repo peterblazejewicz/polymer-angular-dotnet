@@ -3,7 +3,7 @@
 const $ = require('gulp-load-plugins')();
 const argv = require('yargs').argv;
 const browserSync = require('browser-sync').create();
-const restore = require('./tasks/dotnet').restore;
+const dotnet = require('./tasks/dotnet');
 const gulp = require('gulp');
 const opn = require('opn');
 const runSequence = require('run-sequence');
@@ -47,5 +47,5 @@ gulp.task('bower', false, (cb) => {
 });
 
 gulp.task('dotnet:restore', (cb) => {
-  restore(cb);
+  dotnet.restore(cb);
 });
