@@ -1,18 +1,18 @@
-"use strict";
+'use strict';
 
-var browserSync = require('browser-sync').create();
-var gulp = require("gulp");
-
-var $ = require('gulp-load-plugins')();
-var dotnet = require('./tasks/dotnet');
-var argv = require('yargs').argv;
-var opn = require('opn');
-var runSequence = require('run-sequence');
-var spawn = require('child_process').spawn;
+const $ = require('gulp-load-plugins')();
+const argv = require('yargs').argv;
+const browserSync = require('browser-sync').create();
+const dotnet = require('./tasks/dotnet');
+const gulp = require('gulp');
+const opn = require('opn');
+const runSequence = require('run-sequence');
+const spawn = require('child_process').spawn;
 
 // reload is a noop unless '--reload' cmd line arg is specified.
 // reload has no effect without '--watch'.
 let reload = $.util.noop;
+
 if (argv.reload) {
   reload = browserSync.reload;
   // reload doesn't make sense w/o watch
@@ -20,7 +20,7 @@ if (argv.reload) {
 }
 
 // openUrl is a noop unless '--open' cmd line arg is specified.
-var openUrl = () => {};
+let openUrl = () => { };
 if (argv.open) {
   openUrl = opn;
 }
@@ -35,13 +35,13 @@ gulp.task('setup', (cb) => {
 
 // Install/update bower components.
 gulp.task('bower', false, (cb) => {
-  let proc = spawn('./node_modules/bower/bin/bower', 
+  let proc = spawn('./node_modules/bower/bin/bower',
     ['install'],
     {
-      cwd: './', 
+      cwd: './',
       stdio: 'inherit'
     });
-  proc.on('close', function() {
+  proc.on('close', function () {
     cb();
   });
 });
