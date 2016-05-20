@@ -50,6 +50,9 @@ gulp.task('dotnet:restore', (cb) => {
   dotnet.restore(cb);
 });
 
-gulp.task('dotnet:serve', (cb) => {
-  dotnet.run({}, cb);
-})
+gulp.task('serve', (cb) => {
+  let url = dotnet.run({
+    reload: argv.reload
+  }, cb);
+  setTimeout(openUrl.bind(null, url, null, null), 1e3);
+});
