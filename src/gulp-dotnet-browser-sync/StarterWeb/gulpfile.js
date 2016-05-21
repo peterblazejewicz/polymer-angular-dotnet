@@ -8,7 +8,7 @@ const gulp = require('gulp-help')(require('gulp'));
 const opn = require('opn');
 const runSequence = require('run-sequence');
 const spawn = require('child_process').spawn;
-const StarterWeb = require('./package.json');
+const StarterWeb = require('./appsettings.json').Defaults;
 
 // reload is a noop unless '--reload' cmd line arg is specified.
 // reload has no effect without '--watch'.
@@ -37,10 +37,9 @@ if (argv.open) {
  * Installs Bower managed dependencies
  */
 gulp.task('bower', false, (callback) => {
-  // @TODO: move cwd to config based solution
   let proc = spawn('../node_modules/bower/bin/bower', ['install'],
     {
-      cwd: 'wwwroot',
+      cwd: StarterWeb.appDir,
       stdio: 'inherit'
     });
   proc.on('close', callback);
