@@ -2,7 +2,9 @@
 
 const browserSync = require('browser-sync');
 const spawn = require('child_process').spawn;
-const StarterWeb = require('../Properties/launchSettings.json').profiles.StarterWeb;
+const path = require('path');
+const fs = require('fs');
+
 /**
  * Install dotnet dependencies
  * using `dotnet restore`
@@ -16,6 +18,17 @@ let restore = (callback) => {
   }).on('exit', callback);
 }
 
+let createHostingConfig = (options, callback) => {
+  var template = path.resolve(process.cwd(), 'hosting.json.template');
+  if (fs.existsSync(file) === false) {
+    throw new Error('dotnet:hosting: unable to find hosting config template');
+  }
+  var config = JSON.parse(fs.readFileSync(template, 'utf8'));
+  config.environment = options.environment || 'Development';
+  var output = path.resolve(process.cwd(), 'hosting.json');
+  fs.writeFileSync(output, JSON.stringify(config, null, 2));
+  callback();
+};
 
 let run = (options, callback) => {
   let url = StarterWeb.launchUrl;
@@ -45,8 +58,18 @@ let run = (options, callback) => {
 
 }
 
+/**
+ * Exposes `dotnet watch`
+ */
+let watch = (callback) => {
+  callback();
+};
+
 
 module.exports = {
+  build: build,
+  createHostingConfig: createHostingConfig,
   restore: restore,
-  run: run
+  run: run,
+  watch: watch
 }

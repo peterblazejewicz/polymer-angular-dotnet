@@ -45,11 +45,21 @@ gulp.task('bower', false, (callback) => {
     });
   proc.on('close', callback);
 });
+
 /**
  * Run task that installs NuGet dependencies
  */
 gulp.task('dotnet:restore', false, (callback) => {
   dotnet.restore(callback);
+});
+/**
+ * Creates hosting.json from template file
+ */
+gulp.task('dotnet:hosting', false , (callback) => {
+  let options = {
+    environment: argv.ASPNETCORE_ENV || 'Development'
+  }
+  dotnet.createHostingConfig(options, callback);
 });
 
 //
@@ -63,9 +73,10 @@ gulp.task('serve:dist', 'Run the app locally with Production settings', (callbac
   callback();
 });
 
-gulp.task('setup', 'Sets up local dev environment', (callback) => {
+gulp.task('setup', 'Sets up local environment with ASPNETCORE_ENV=Development', (callback) => {
   runSequence([
     'bower',
     'dotnet:restore',
+    'dotnet:hosting'
   ], callback);
 });
