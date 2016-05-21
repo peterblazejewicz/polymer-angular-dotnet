@@ -8,6 +8,7 @@ const gulp = require('gulp-help')(require('gulp'));
 const opn = require('opn');
 const runSequence = require('run-sequence');
 const spawn = require('child_process').spawn;
+const StarterWeb = require('./package.json');
 
 // reload is a noop unless '--reload' cmd line arg is specified.
 // reload has no effect without '--watch'.
@@ -32,12 +33,23 @@ if (argv.open) {
 //
 // private tasks
 //
+/**
+ * Installs Bower managed dependencies
+ */
 gulp.task('bower', false, (callback) => {
-  callback();
+  // @TODO: move cwd to config based solution
+  let proc = spawn('../node_modules/bower/bin/bower', ['install'],
+    {
+      cwd: 'wwwroot',
+      stdio: 'inherit'
+    });
+  proc.on('close', callback);
 });
-
+/**
+ * Run task that installs NuGet dependencies
+ */
 gulp.task('dotnet:restore', false, (callback) => {
-  callback();
+  dotnet.restore(callback);
 });
 
 //
