@@ -21,38 +21,10 @@ if (argv.reload) {
 
 // openUrl is a noop unless '--open' cmd line arg is specified.
 let openUrl = () => { };
+let watch = () => {
+  console.log('watching...');
+}
+
 if (argv.open) {
   openUrl = opn;
 }
-
-gulp.task('default', (cb) => {
-  cb();
-});
-
-gulp.task('setup', (cb) => {
-  runSequence(['bower', 'dotnet:restore'], cb);
-});
-
-// Install/update bower components.
-gulp.task('bower', false, (cb) => {
-  let proc = spawn('./node_modules/bower/bin/bower',
-    ['install'],
-    {
-      cwd: './',
-      stdio: 'inherit'
-    });
-  proc.on('close', function () {
-    cb();
-  });
-});
-
-gulp.task('dotnet:restore', (cb) => {
-  dotnet.restore(cb);
-});
-
-gulp.task('serve', (cb) => {
-  let url = dotnet.run({
-    reload: argv.reload
-  }, cb);
-  setTimeout(openUrl.bind(null, url, null, null), 1e3);
-});
