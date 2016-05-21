@@ -24,7 +24,7 @@ if (argv.reload) {
 let openUrl = () => { };
 let watch = () => {
   console.log('watching...');
-}
+};
 
 if (argv.open) {
   openUrl = opn;
@@ -58,7 +58,7 @@ gulp.task('dotnet:restore', false, (callback) => {
 gulp.task('dotnet:hosting', false , (callback) => {
   let options = {
     environment: argv.ASPNETCORE_ENV || 'Development'
-  }
+  };
   dotnet.createHostingConfig(options, callback);
 });
 

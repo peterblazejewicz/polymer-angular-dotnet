@@ -60,7 +60,7 @@ let run = (options, callback) => {
   });
   return `http://localhost:${port}`;
 
-}
+};
 
 /**
  * Exposes `dotnet watch`
@@ -76,4 +76,4 @@ module.exports = {
   restore: restore,
   run: run,
   watch: watch
-}
+};
