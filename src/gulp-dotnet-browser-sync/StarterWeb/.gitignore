@@ -238,3 +238,6 @@ wwwroot/lib
 
 # typings
 typings/
+
+# never upload client side deps
+bower_components/
