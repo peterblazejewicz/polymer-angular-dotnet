@@ -241,3 +241,6 @@ typings/
 
 # never upload client side deps
 bower_components/
+
+# do not store generated hosting.json
+hosting.json
