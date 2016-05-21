@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -18,8 +17,6 @@ namespace StarterWeb
 
             var host = new WebHostBuilder()
                 .UseConfiguration(config)
-                .UseUrls(Environment
-          .GetEnvironmentVariable("ASPNETCORE_URLS"))
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
