@@ -47,7 +47,7 @@ gulp.task('serve', 'Run the app locally with Development settings', (callback) =
   callback();
 });
 
-gulp.task('serve:dist', 'Run the app locally with Proudction settings', (callback) => {
+gulp.task('serve:dist', 'Run the app locally with Production settings', (callback) => {
   callback();
 });
 
