@@ -24,7 +24,7 @@ let build = (options, callback) => {
 
 let createHostingConfig = (options, callback) => {
   var template = path.resolve(process.cwd(), 'hosting.json.template');
-  if (fs.existsSync(file) === false) {
+  if (fs.existsSync(template) === false) {
     throw new Error('dotnet:hosting: unable to find hosting config template');
   }
   var config = JSON.parse(fs.readFileSync(template, 'utf8'));
