@@ -28,3 +28,32 @@ let watch = () => {
 if (argv.open) {
   openUrl = opn;
 }
+
+//
+// private tasks
+//
+gulp.task('bower', false, (callback) => {
+  callback();
+});
+
+gulp.task('dotnet:restore', false, (callback) => {
+  callback();
+});
+
+//
+// public tasks
+//
+gulp.task('serve', 'Run the app locally with Development settings', (callback) => {
+  callback();
+});
+
+gulp.task('serve:dist', 'Run the app locally with Proudction settings', (callback) => {
+  callback();
+});
+
+gulp.task('setup', 'Sets up local dev environment', (callback) => {
+  runSequence([
+    'bower',
+    'dotnet:restore',
+  ], callback);
+});
