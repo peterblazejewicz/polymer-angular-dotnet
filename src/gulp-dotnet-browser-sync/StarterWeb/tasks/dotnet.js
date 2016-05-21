@@ -6,17 +6,21 @@ const path = require('path');
 const fs = require('fs');
 
 /**
- * Install dotnet dependencies
- * using `dotnet restore`
- * 
- * @param callback (description)
+ * Expoes `dotnet restore`
  */
 let restore = (callback) => {
   let args = ['restore'];
   spawn('dotnet', args, {
     stdio: 'inherit'
   }).on('exit', callback);
-}
+};
+
+/**
+ * Exposes `dotnet build`
+ */
+let build = (options, callback) => {
+  callback();
+};
 
 let createHostingConfig = (options, callback) => {
   var template = path.resolve(process.cwd(), 'hosting.json.template');
@@ -30,14 +34,14 @@ let createHostingConfig = (options, callback) => {
   callback();
 };
 
+/**
+ * Exposes `dotnet run`
+ */
 let run = (options, callback) => {
-  let url = StarterWeb.launchUrl;
+  let url = options.url;
   let args = ['run'];
-  let env = process.env;
-  env.ASPNETCORE_URLS = url || 'http://localhost:8080';
   let dotnet = spawn('dotnet', args, {
-    stdio: 'inherit',
-    env: env
+    stdio: 'inherit'
   });
   if (!options.reload) {
     console.log(`The app should now be available at ${url}`);
