@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 
 namespace StarterWeb
 {
@@ -8,10 +9,17 @@ namespace StarterWeb
     {
         public static void Main(string[] args)
         {
-            var urls = Environment
-          .GetEnvironmentVariable("ASPNETCORE_URLS") ?? "http://localhost:5000";
+            var config = new ConfigurationBuilder()
+              .SetBasePath(Directory.GetCurrentDirectory())
+              .AddJsonFile("hosting.json", optional: false)
+              .AddEnvironmentVariables(prefix: "ASPNETCORE_")
+              .AddCommandLine(args)
+              .Build();
+
             var host = new WebHostBuilder()
-                .UseUrls(urls)
+                .UseConfiguration(config)
+                .UseUrls(Environment
+          .GetEnvironmentVariable("ASPNETCORE_URLS"))
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
