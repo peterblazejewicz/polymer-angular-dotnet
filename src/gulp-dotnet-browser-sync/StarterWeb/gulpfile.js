@@ -6,10 +6,12 @@ const browserSync = require('browser-sync').create();
 const dotnet = require('./tasks/dotnet');
 const gulp = require('gulp-help')(require('gulp'));
 const opn = require('opn');
+const path = require('path');
 const runSequence = require('run-sequence');
 const spawn = require('child_process').spawn;
 const StarterWeb = require('./appsettings.json').Defaults;
 
+StarterWeb.contentRoot = path.normalize(process.cwd(), path.sep);
 // reload is a noop unless '--reload' cmd line arg is specified.
 // reload has no effect without '--watch'.
 let reload = $.util.noop;

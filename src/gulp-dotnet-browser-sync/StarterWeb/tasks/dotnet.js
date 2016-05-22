@@ -4,6 +4,7 @@ const browserSync = require('browser-sync');
 const spawn = require('child_process').spawn;
 const path = require('path');
 const fs = require('fs');
+const StarterWeb = require('../appsettings.json').Defaults;
 
 /**
  * Expoes `dotnet restore`
@@ -28,7 +29,9 @@ let createHostingConfig = (options, callback) => {
     throw new Error('dotnet:hosting: unable to find hosting config template');
   }
   var config = JSON.parse(fs.readFileSync(template, 'utf8'));
-  config.environment = options.environment || 'Development';
+  config.contentRoot = path.join(process.cwd(), path.sep);
+  config['server.urls'] = options['server.urls'] || StarterWeb['server.urls'];
+  config.environment = options.environment || StarterWeb.environment;
   var output = path.resolve(process.cwd(), 'hosting.json');
   fs.writeFileSync(output, JSON.stringify(config, null, 2));
   callback();

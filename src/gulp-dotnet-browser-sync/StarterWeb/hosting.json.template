@@ -1,6 +1,5 @@
 {
   "applicationName": "Starter Web",
-  "contentRoot": "",
   "environment": "Development",
   "server.urls": "http://localhost:8080",
   "webroot": "app"
