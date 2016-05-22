@@ -17,15 +17,22 @@ StarterWeb.contentRoot = path.normalize(process.cwd(), path.sep);
 let reload = $.util.noop;
 
 if (argv.reload) {
-  reload = browserSync.reload;
+  reload = () => {
+    browserSync.reload({stream: true});
+  };
   // reload doesn't make sense w/o watch
   argv.watch = true;
 }
 
 // openUrl is a noop unless '--open' cmd line arg is specified.
 let openUrl = () => { };
+/**
+ * Watch file changes and reload running server or rebuild stuff
+ */
 let watch = () => {
-  console.log('watching...');
+  gulp.watch([StarterWeb.appDir + '/**/*.html'], reload);
+  gulp.watch([StarterWeb.contentRoot + '/Views/**/*.cshtml'], reload);
+  gulp.watch([StarterWeb.appDir + '/bower.json'], ['bower']);
 };
 
 if (argv.open) {
@@ -56,9 +63,9 @@ gulp.task('dotnet:restore', false, (callback) => {
 /**
  * Creates hosting.json from template file
  */
-gulp.task('dotnet:hosting', false , (callback) => {
+gulp.task('dotnet:hosting', false, (callback) => {
   let options = {
-    environment: argv.ASPNETCORE_ENV || 'Development'
+    environment: StarterWeb.environment || 'Development'
   };
   dotnet.createHostingConfig(options, callback);
 });
@@ -66,9 +73,24 @@ gulp.task('dotnet:hosting', false , (callback) => {
 //
 // public tasks
 //
-gulp.task('serve', 'Run the app locally with Development settings', (callback) => {
-  callback();
-});
+gulp.task('serve', 'Run the app locally with Development settings', ['dotnet:hosting'], (callback) => {
+  let options = {
+    environment: StarterWeb.environment,
+    'server.urls': StarterWeb['server.urls'],
+    reload: argv.reload
+  };
+  let url = dotnet.run(options, callback);
+  setTimeout(openUrl.bind(null, url, null, null), 8000);
+  if (argv.watch !== false) {
+    watch();
+  }
+}, {
+    options: {
+      'no-watch': 'Disable file watchers',
+      'reload': 'Enable live-reload (makes --no-watch a noop)',
+      'open': 'Opens a new browser tab to the app'
+    }
+  });
 
 gulp.task('serve:dist', 'Run the app locally with Production settings', (callback) => {
   callback();
@@ -80,4 +102,11 @@ gulp.task('setup', 'Sets up local environment with ASPNETCORE_ENV=Development', 
     'dotnet:restore',
     'dotnet:hosting'
   ], callback);
+});
+
+
+gulp.task('watch', () => {
+  gulp.watch([StarterWeb.appDir + '/**/*.html'], reload);
+  gulp.watch([StarterWeb.contentRoot + '/Views/**/*.cshtml'], reload);
+  gulp.watch([StarterWeb.appDir + '/bower.json'], ['bower']);
 });

@@ -41,8 +41,8 @@ let createHostingConfig = (options, callback) => {
  * Exposes `dotnet run`
  */
 let run = (options, callback) => {
-  let url = options.url;
-  let args = ['run'];
+  let url = options['server.urls'] || StarterWeb['server.urls'];
+  let args = (options.reload) ? ['watch'] : ['run'];
   let dotnet = spawn('dotnet', args, {
     stdio: 'inherit'
   });
@@ -51,18 +51,16 @@ let run = (options, callback) => {
     dotnet.on('close', callback);
     return url;
   }
-  let port = 3000;
   browserSync.emitter.on('service:exit', callback);
   browserSync({
     notify: false,
     open: false,
-    port: port,
+    port: 8000,
     proxy: {
-      target: url
+      target: 'localhost:8080'
     }
   });
-  return `http://localhost:${port}`;
-
+  return `http://localhost:8000`;
 };
 
 /**
