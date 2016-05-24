@@ -38,7 +38,8 @@ namespace Shop
             app.MapWhen(context =>
             {
                 var path = context.Request.Path.Value;
-                return !path.Contains(".");
+                if (path.Contains("/api/")) return false;
+                return (!path.Contains("."));
             }, aBranch =>
             {
                 aBranch.Use((context, next) =>
