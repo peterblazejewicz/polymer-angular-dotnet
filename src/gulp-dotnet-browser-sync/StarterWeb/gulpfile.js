@@ -2,24 +2,21 @@
 
 const $ = require('gulp-load-plugins')();
 const argv = require('yargs').argv;
-const browserSync = require('browser-sync').create();
+const browserSync = require('browser-sync');
 const dotnet = require('./tasks/dotnet');
 const gulp = require('gulp-help')(require('gulp'));
 const opn = require('opn');
 const path = require('path');
 const runSequence = require('run-sequence');
 const spawn = require('child_process').spawn;
-const StarterWeb = require('./appsettings.json').Defaults;
+const configuration = require('./tasks/config');
 
-StarterWeb.contentRoot = path.normalize(process.cwd(), path.sep);
 // reload is a noop unless '--reload' cmd line arg is specified.
 // reload has no effect without '--watch'.
 let reload = $.util.noop;
 
 if (argv.reload) {
-  reload = () => {
-    browserSync.reload({stream: true});
-  };
+  reload = browserSync.reload;
   // reload doesn't make sense w/o watch
   argv.watch = true;
 }
@@ -29,10 +26,17 @@ let openUrl = () => { };
 /**
  * Watch file changes and reload running server or rebuild stuff
  */
-let watch = () => {
-  gulp.watch([StarterWeb.appDir + '/**/*.html'], reload);
-  gulp.watch([StarterWeb.contentRoot + '/Views/**/*.cshtml'], reload);
-  gulp.watch([StarterWeb.appDir + '/bower.json'], ['bower']);
+let watch = (config) => {
+  console.log("watching for changes ...");
+  gulp.watch([config.webroot + '/**/*.html'], () => {
+    console.log('.html change');
+    browserSync.reload();
+  });
+  gulp.watch([config.contentRoot + '/Views/**/*.cshtml'], () => {
+    console.log('.cshtml change');
+    browserSync.reload();
+  });
+  gulp.watch([config.webroot + '/bower.json'], ['bower']);
 };
 
 if (argv.open) {
@@ -46,9 +50,10 @@ if (argv.open) {
  * Installs Bower managed dependencies
  */
 gulp.task('bower', false, (callback) => {
+  let config = configuration.read();
   let proc = spawn('../node_modules/bower/bin/bower', ['install'],
     {
-      cwd: StarterWeb.appDir,
+      cwd: config.webroot,
       stdio: 'inherit'
     });
   proc.on('close', callback);
@@ -64,25 +69,25 @@ gulp.task('dotnet:restore', false, (callback) => {
  * Creates hosting.json from template file
  */
 gulp.task('dotnet:hosting', false, (callback) => {
-  let options = {
-    environment: StarterWeb.environment || 'Development'
-  };
-  dotnet.createHostingConfig(options, callback);
+  dotnet.createHostingConfig({
+    environment: 'Development'
+  }, callback);
 });
 
 //
 // public tasks
 //
 gulp.task('serve', 'Run the app locally with Development settings', ['dotnet:hosting'], (callback) => {
-  let options = {
-    environment: StarterWeb.environment,
-    'server.urls': StarterWeb['server.urls'],
-    reload: argv.reload
-  };
+    let config = configuration.read();
+    let options = {
+      environment: 'Development',
+      'server.urls': config['server.urls'],
+      reload: argv.reload
+    };
   let url = dotnet.run(options, callback);
   setTimeout(openUrl.bind(null, url, null, null), 8000);
-  if (argv.watch !== false) {
-    watch();
+  if (argv.watch) {
+    watch(config);
   }
 }, {
     options: {
@@ -102,11 +107,4 @@ gulp.task('setup', 'Sets up local environment with ASPNETCORE_ENV=Development', 
     'dotnet:restore',
     'dotnet:hosting'
   ], callback);
-});
-
-
-gulp.task('watch', () => {
-  gulp.watch([StarterWeb.appDir + '/**/*.html'], reload);
-  gulp.watch([StarterWeb.contentRoot + '/Views/**/*.cshtml'], reload);
-  gulp.watch([StarterWeb.appDir + '/bower.json'], ['bower']);
 });

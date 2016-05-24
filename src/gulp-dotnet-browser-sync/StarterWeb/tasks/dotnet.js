@@ -4,8 +4,7 @@ const browserSync = require('browser-sync');
 const spawn = require('child_process').spawn;
 const path = require('path');
 const fs = require('fs');
-const StarterWeb = require('../appsettings.json').Defaults;
-
+const configuration = require('./config');
 /**
  * Expoes `dotnet restore`
  */
@@ -30,8 +29,8 @@ let createHostingConfig = (options, callback) => {
   }
   var config = JSON.parse(fs.readFileSync(template, 'utf8'));
   config.contentRoot = path.join(process.cwd(), path.sep);
-  config['server.urls'] = options['server.urls'] || StarterWeb['server.urls'];
-  config.environment = options.environment || StarterWeb.environment;
+  config['server.urls'] = options['server.urls'] || 'http://+:5000';
+  config.environment = options.environment || 'Development';
   var output = path.resolve(process.cwd(), 'hosting.json');
   fs.writeFileSync(output, JSON.stringify(config, null, 2));
   callback();
@@ -41,7 +40,8 @@ let createHostingConfig = (options, callback) => {
  * Exposes `dotnet run`
  */
 let run = (options, callback) => {
-  let url = options['server.urls'] || StarterWeb['server.urls'];
+  var config = configuration.read();
+  let url = options['server.urls'] || config['server.urls'];
   let args = (options.reload) ? ['watch'] : ['run'];
   let dotnet = spawn('dotnet', args, {
     stdio: 'inherit'
@@ -55,12 +55,12 @@ let run = (options, callback) => {
   browserSync({
     notify: false,
     open: false,
-    port: 8000,
+    port: 3000,
     proxy: {
-      target: 'localhost:8080'
+      target: 'http://127.0.0.1:5000'
     }
   });
-  return `http://localhost:8000`;
+  return `http://127.0.0.1:3000`;
 };
 
 /**
