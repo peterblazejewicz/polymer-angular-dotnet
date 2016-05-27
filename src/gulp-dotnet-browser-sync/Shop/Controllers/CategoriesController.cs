@@ -1,5 +1,9 @@
+using IOFile = System.IO.File;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.IO;
 
 namespace Shop.Controllers
 {
@@ -12,11 +16,23 @@ namespace Shop.Controllers
             HostingEnvironment = env;
         }
 
-        // GET api/categories/{id}
-        [HttpGet("{id}")]
-        public string Get(string id)
+        // GET api/categories/{filename}
+        [HttpGet("{filename}", Name = "GetCategory")]
+        public IActionResult Get(string filename)
         {
-            return "tbd";
+            string path = Path.Combine(HostingEnvironment.ContentRootPath, "Data", filename);
+            if (IOFile.Exists(path) == false)
+            {
+                return NotFound($"The data file at {filename} not found");
+            }
+            using (StreamReader stream = IOFile.OpenText(path))
+            {
+                using (JsonTextReader reader = new JsonTextReader(stream))
+                {
+                    JArray results = (JArray)JToken.ReadFrom(reader);
+                    return Ok(results);
+                }
+            }
         }
 
     }
