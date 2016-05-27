@@ -16,6 +16,25 @@ namespace Shop.Controllers
             HostingEnvironment = env;
         }
 
+        // GET api/categories/
+        [HttpGet(Name = "GetCategories")]
+        public IActionResult Get()
+        {
+            string path = Path.Combine(HostingEnvironment.ContentRootPath, "Data", "categories.json");
+            if (IOFile.Exists(path) == false)
+            {
+                return NotFound($"The data file at {path} not found");
+            }
+            using (StreamReader stream = IOFile.OpenText(path))
+            {
+                using (JsonTextReader reader = new JsonTextReader(stream))
+                {
+                    JArray results = (JArray)JToken.ReadFrom(reader);
+                    return Ok(results);
+                }
+            }
+        }
+
         // GET api/categories/{filename}
         [HttpGet("{filename}", Name = "GetCategory")]
         public IActionResult Get(string filename)
