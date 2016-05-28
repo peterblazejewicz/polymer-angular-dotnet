@@ -23,7 +23,7 @@ namespace Shop.Controllers
             string path = Path.Combine(HostingEnvironment.ContentRootPath, "Data", "categories.json");
             if (IOFile.Exists(path) == false)
             {
-                return NotFound($"The data file at {path} not found");
+                return NotFound($"The data file at categories.json not found");
             }
             using (StreamReader stream = IOFile.OpenText(path))
             {
@@ -35,14 +35,14 @@ namespace Shop.Controllers
             }
         }
 
-        // GET api/categories/{filename}
-        [HttpGet("{filename}", Name = "GetCategory")]
-        public IActionResult Get(string filename)
+        // GET api/categories/{category}
+        [HttpGet("{category}", Name = "GetCategory")]
+        public IActionResult Get(string category)
         {
-            string path = Path.Combine(HostingEnvironment.ContentRootPath, "Data", filename);
+            string path = Path.Combine(HostingEnvironment.ContentRootPath, "Data", $"{category}.json");
             if (IOFile.Exists(path) == false)
             {
-                return NotFound($"The data file at {filename} not found");
+                return NotFound($"The data file for {path} not found");
             }
             using (StreamReader stream = IOFile.OpenText(path))
             {

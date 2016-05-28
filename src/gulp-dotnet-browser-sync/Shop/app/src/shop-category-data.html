@@ -110,7 +110,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           return;
         }
         this._getResource({
-          url: '/api/categories/' + category.name + '.json',
+          url: '/api/categories/' + category.name,
           onLoad: function(e) {
             this.set('category.items', JSON.parse(e.target.responseText));
           },
