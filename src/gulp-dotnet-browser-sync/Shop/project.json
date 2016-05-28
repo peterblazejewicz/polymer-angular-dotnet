@@ -52,10 +52,16 @@
 
   "publishOptions": {
     "include": [
-      "wwwroot",
-      "Views",
+      "app",
+      "Data",
       "appsettings.json",
       "web.config"
+    ],
+    "exclude": [
+        "app/test"
+    ],
+    "excludeFiles": [
+      "app/polymer.json"
     ]
   },
 
