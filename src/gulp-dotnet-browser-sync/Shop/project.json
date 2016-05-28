@@ -8,7 +8,7 @@
     "Microsoft.AspNetCore.Server.IISIntegration": "1.0.0-rc2-final",
     "Microsoft.AspNetCore.Server.Kestrel": "1.0.0-rc2-final",
     "Microsoft.AspNetCore.StaticFiles": "1.0.0-rc2-final",
-    "Microsoft.Extensions.Configuration.CommandLine": "1.0.0-rc2-final", 
+    "Microsoft.Extensions.Configuration.CommandLine": "1.0.0-rc2-final",
     "Microsoft.Extensions.Configuration.EnvironmentVariables": "1.0.0-rc2-final",
     "Microsoft.Extensions.Configuration.FileExtensions": "1.0.0-rc2-final",
     "Microsoft.Extensions.Configuration.Json": "1.0.0-rc2-final",
@@ -17,18 +17,16 @@
     "Microsoft.Extensions.Logging.Debug": "1.0.0-rc2-final",
     "Newtonsoft.Json": "8.0.3"
   },
-
   "tools": {
     "Microsoft.DotNet.Watcher.Tools": {
       "version": "1.0.0-*",
-      "imports": "portable-net451+win8"  
+      "imports": "portable-net451+win8"
     },
     "Microsoft.AspNetCore.Server.IISIntegration.Tools": {
       "version": "1.0.0-preview1-final",
       "imports": "portable-net45+win8+dnxcore50"
     }
   },
-
   "frameworks": {
     "netcoreapp1.0": {
       "imports": [
@@ -38,18 +36,15 @@
       ]
     }
   },
-
   "buildOptions": {
     "emitEntryPoint": true,
     "preserveCompilationContext": true
   },
-
   "runtimeOptions": {
     "configProperties": {
       "System.GC.Server": true
     }
   },
-
   "publishOptions": {
     "include": [
       "app",
@@ -58,17 +53,17 @@
       "web.config"
     ],
     "exclude": [
-        "app/test"
+      "app/test"
     ],
     "excludeFiles": [
       "app/polymer.json"
     ]
   },
-
   "scripts": {
-    "postpublish": [ "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%" ]
+    "postpublish": [
+      "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%"
+    ]
   },
-
   "tooling": {
     "defaultNamespace": "Shop"
   }

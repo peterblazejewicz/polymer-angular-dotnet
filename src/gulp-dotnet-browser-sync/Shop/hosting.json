@@ -1,7 +1,7 @@
 {
-    "applicationName": "Shop",
-    "contentRoot": "/Users/piotrblazejewicz/git/recipes/src/gulp-dotnet-browser-sync/Shop",
-    "environment": "Development",
-    "server.urls": "http://+:8080",
-    "webroot": "app"
+  "applicationName": "Shop",
+  "contentRoot": "/Users/piotrblazejewicz/git/recipes/src/gulp-dotnet-browser-sync/Shop",
+  "environment": "Development",
+  "server.urls": "http://+:8080",
+  "webroot": "app"
 }
