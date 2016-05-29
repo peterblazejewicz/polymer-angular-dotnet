@@ -50,6 +50,7 @@
       "app",
       "Data",
       "appsettings.json",
+      "hosting.json",
       "web.config"
     ],
     "exclude": [
