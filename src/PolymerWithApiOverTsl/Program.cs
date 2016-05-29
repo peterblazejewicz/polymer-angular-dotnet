@@ -18,10 +18,10 @@ namespace ExampleApp
             var host = new WebHostBuilder()
                 .UseConfiguration(config)
                 .UseKestrel()
+                .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()
                 .Build();
-
             host.Run();
         }
     }
