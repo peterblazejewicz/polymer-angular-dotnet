@@ -1,0 +1,6 @@
+{
+  "applicationName": "ExampleApp",
+  "environment": "Production",
+  "server.urls": "http://+:8080",
+  "webroot": "dist"
+}
