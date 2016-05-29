@@ -52,21 +52,20 @@
 
   "publishOptions": {
     "include": [
-      "app",
+      "dist",
       "appsettings.json",
       "hosting.json",
       "web.config"
     ],
      "exclude": [
-      "app/test"
+      "dist/test"
     ],
     "excludeFiles": [
-      "app/polymer.json"
+      "dist/polymer.json"
     ]
   },
 
   "scripts": {
-    "prepublish": "echo TBD",
     "postpublish": [ "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%" ]
   },
 
