@@ -4,6 +4,7 @@ const gulp = require('gulp-help')(require('gulp'));
 const runSequence = require('run-sequence');
 const spawn = require('child_process').spawn;
 const del = require('del');
+const rename = require('gulp-rename');
 
 /**
  * Build Polymer app using polymer build
@@ -64,6 +65,14 @@ gulp.task('dotnet:publish', 'Create local dotnet publish', (cb) => {
   proc.on('close', cb);
 });
 
+gulp.task('dotnet:watch', 'Serve application using development settings', (cb) => {
+  let proc = spawn('dotnet', ['watch'],
+    {
+      stdio: 'inherit'
+    });
+  proc.on('close', cb);
+});
+
 /**
  * Copy content from Polymer generated app/build/bundled
  * directory into standard *dist*
@@ -76,8 +85,33 @@ gulp.task('copy:dist', 'Copy build into dist', () => {
     '!app/build/bundled/README.md',
     '!**/.DS_Store'
   ], {
-    dot: true   
-  }).pipe(gulp.dest('dist'));
+      dot: true
+    }).pipe(gulp.dest('dist'));
+});
+
+/**
+ * Create a hosting.json from development time template
+ */
+gulp.task('hosting:dev', 'Create a development time hosting.json', () => {
+  return gulp.src('hosting.development.json')
+    .pipe(rename('hosting.json'))
+    .pipe(gulp.dest('.'));
+});
+
+/**
+ * Create hosting.json for production distribution
+ */
+gulp.task('hosting:dist', 'Create a production time hosting.json', () => {
+  return gulp.src('hosting.production.json')
+    .pipe(rename('hosting.json'))
+    .pipe(gulp.dest('.'));
+});
+
+/**
+ * Start Kestrel server using development settings
+ */
+gulp.task('serve', 'Serve a local (development) version of app', (cb) => {
+  runSequence(['hosting:dev', 'dotnet:build'], 'dotnet:watch', cb);
 });
 
 /**
@@ -89,6 +123,7 @@ gulp.task('build', 'Create local build', (cb) => {
     'polymer:build',
     'copy:dist',
     'clean:build',
+    'hosting:dist',
     'dotnet:build',
     'dotnet:publish'
     , cb);
