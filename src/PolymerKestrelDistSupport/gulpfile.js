@@ -79,8 +79,8 @@ gulp.task('dotnet:watch', 'Serve application using development settings', (cb) =
  */
 gulp.task('copy:dist', 'Copy build into dist', () => {
   return gulp.src([
-    'app/build/bundled/*',
-    '!app/build/bundled/test',
+    'app/build/bundled/**',
+    '!app/build/bundled/test/',
     '!app/build/bundled/polymer.json',
     '!app/build/bundled/README.md',
     '!**/.DS_Store'
