@@ -9,6 +9,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/paper-progress/paper-progress.html">
 
 <dom-module id="my-view3">
 
@@ -43,13 +45,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         margin: 16px 0;
         color: #212121;
       }
+
+      paper-progress[hidden] {
+        display: none;
+      }
+
     </style>
 
+    <iron-ajax auto
+        url="/api/cards/3"
+        handle-as="json"
+        loading="{{loading}}"
+        last-response="{{data}}"></iron-ajax>
+
+
     <div class="card">
-      <div class="circle">3</div>
-      <h1>View Three</h1>
-      <p>Modus commodo minimum eum te, vero utinam assueverit per eu.</p>
-      <p>Ea duis bonorum nec, falli paulo aliquid ei eum.Has at minim mucius aliquam, est id tempor laoreet.Pro saepe pertinax ei, ad pri animal labores suscipiantur.</p>
+      <paper-progress indeterminate hidden="[[!loading]]"></paper-progress>
+      <template is="dom-if" if="[[data]]">
+        <div class="circle">[[data.id]]</div>
+        <h1>[[data.title]]</h1>
+        [[data.content]]
+      </template>
     </div>
 
   </template>

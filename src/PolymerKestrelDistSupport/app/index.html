@@ -51,7 +51,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <link rel="import" href="/src/my-app.html">
 
-  <style>
+  <style is="custom-style">
 
     body {
       margin: 0;
@@ -59,6 +59,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       line-height: 1.5;
       min-height: 100vh;
       background-color: #eee;
+    }
+
+    paper-progress[hidden] {
+      display: none;
     }
 
   </style>
