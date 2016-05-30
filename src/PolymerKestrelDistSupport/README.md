@@ -1,5 +1,23 @@
 # Polymer with C# WebAPI hosted on Kestrel
 
+## Setup
+
+```
+npm install
+```
+This will install both Polymer and C# Dotnet dependencies.
+To run:
+```
+gulp serve
+```
+
+## Tasks
+
+Type:
+```
+gulp help
+```
+
 ## Build
 
 ```
