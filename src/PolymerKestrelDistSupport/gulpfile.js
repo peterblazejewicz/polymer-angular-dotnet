@@ -19,6 +19,18 @@ gulp.task('polymer:build', 'Create local polymer build', (cb) => {
 });
 
 /**
+ * Install Polymer dependencies via Bower
+ */
+gulp.task('polymer:bower', 'Install Polymer client app dependencies', (cb) => {
+  let proc = spawn('bower', ['install'],
+    {
+      cwd: "app",
+      stdio: 'inherit'
+    });
+  proc.on('close', cb);
+})
+
+/**
  * Clean generated content dist directory
  */
 gulp.task('clean:dist', false, () => {
@@ -73,6 +85,14 @@ gulp.task('dotnet:watch', 'Serve application using development settings', (cb) =
   proc.on('close', cb);
 });
 
+gulp.task('dotnet:restore', 'Install dependencies via NuGet using dotnet restore acion', (cb) => {
+  let proc = spawn('dotnet', ['restore'],
+    {
+      stdio: 'inherit'
+    });
+  proc.on('close', cb);
+});
+
 /**
  * Copy content from Polymer generated app/build/bundled
  * directory into standard *dist*
@@ -112,6 +132,13 @@ gulp.task('hosting:dist', 'Create a production time hosting.json', () => {
  */
 gulp.task('serve', 'Serve a local (development) version of app', (cb) => {
   runSequence(['hosting:dev', 'dotnet:build'], 'dotnet:watch', cb);
+});
+
+/**
+ * Setup dependencies
+ */
+gulp.task('setup', 'Setup Polymer and Dotnet dependencies', (cb) => {
+  runSequence(['polymer:bower', 'dotnet:restore'], cb);
 });
 
 /**

@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "gulpfile.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
+  "author": "peterblazejewicz",
   "license": "Unlicense",
+  "scripts": {
+    "postinstall": "gulp setup"
+  },
   "devDependencies": {
     "del": "^2.2.0",
     "eslint": "^2.11.0",
