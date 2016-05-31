@@ -1,8 +1,13 @@
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using PolymerKestrelAuth0.Models;
 
 namespace PolymerKestrelAuth0
 {
@@ -13,8 +18,12 @@ namespace PolymerKestrelAuth0
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+            if (env.IsDevelopment())
+            {
+                builder.AddUserSecrets();
+            }
+            builder.AddEnvironmentVariables();
             Configuration = builder.Build();
         }
 
@@ -23,6 +32,7 @@ namespace PolymerKestrelAuth0
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<Auth0Settings>(options => Configuration.GetSection("Auth0").Bind(options));
             // Add framework services.
             services.AddMvc();
         }
@@ -32,6 +42,33 @@ namespace PolymerKestrelAuth0
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+            var logger = loggerFactory.CreateLogger("PolymerKestrelAuth0");
+            var settings = app.ApplicationServices.GetService<IOptions<Auth0Settings>>();
+            var jwtOptions = new JwtBearerOptions
+            {
+                AuthenticationScheme = JwtBearerDefaults.AuthenticationScheme,
+                AutomaticAuthenticate = true,
+                Authority = $"https://{settings.Value.Domain}",
+                Audience = settings.Value.ClientId,
+                RequireHttpsMetadata = false,
+                Events = new JwtBearerEvents
+                {
+                    OnAuthenticationFailed = context =>
+                    {
+                        logger.LogError("Authentication failed.", context.Exception);
+                        return Task.FromResult(0);
+                    },
+                    OnTokenValidated = context =>
+                    {
+                        var claimsIdentity = context.Ticket.Principal.Identity as ClaimsIdentity;
+                        claimsIdentity.AddClaim(new Claim("id_token",
+                            context.Request.Headers["Authorization"][0].Substring(context.Ticket.AuthenticationScheme.Length + 1)));
+                        claimsIdentity.AddClaim(new Claim(ClaimTypes.Name, claimsIdentity.FindFirst("name").Value));
+                        return Task.FromResult(0);
+                    }
+                }
+            };
+            app.UseJwtBearerAuthentication(jwtOptions);
 
             app.UseMvc();
         }
