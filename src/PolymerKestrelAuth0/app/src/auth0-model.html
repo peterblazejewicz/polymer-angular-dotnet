@@ -1,0 +1,83 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-localstorage/iron-localstorage.html">
+<link rel="import" href="auth0-js-import.html">
+<dom-module id="auth-model">
+  <template strip-whitespace>
+    <style>
+      :host {
+        display: none;
+      }
+    </style>
+    <iron-localstorage name="user-locastorage"
+      value="{{user}}"></iron-localstorage>
+    <iron-localstorage name="token-localstorage"
+      value="{{token}}"></iron-localstorage>
+  </template>
+  <script>
+    (function() {
+      'use strict';
+      Polymer({
+        is: 'auth-model',
+        hostAttributes: {
+          hidden: true
+        },
+        properties: {
+          clientId: {
+            type: String,
+            notify: true,
+            reflectToAttribute: true
+          },
+          domain: {
+            type: String,
+            notify: true,
+            reflectToAttribute: true
+          },
+          isAuthenticated: {
+            type: Boolean,
+            notify: true,
+            value: false
+          },
+          user: {
+            type: Object,
+            notify: true
+          },
+          token: {
+            type: String,
+            value: null
+          },
+          ref: {
+            type: Object,
+            readOnly: true,
+            notify: true
+          },
+        },
+        ready: function() {
+          if (this.clientId && this.domain) {
+            this.$.ref = new Auth0Lock(this.clientId, this.domain);
+          }
+          this.isAuthenticated = false;
+        },
+        login: function() {
+          if (this.$.ref) {
+            var self = this;
+            this.$.ref.show(function(err, profile, token) {
+              if (err) {
+                // FIXME: handler
+                console.log(err);
+              } else {
+                self.user = profile;
+                self.token = token;
+                self.isAuthenticated = true;
+              }
+            });
+          }
+        },
+        logout: function() {
+          this.user = null;
+          this.token = null;
+          this.isAuthenticated = false;
+        },
+      });
+    })();
+  </script>
+</dom-module>
