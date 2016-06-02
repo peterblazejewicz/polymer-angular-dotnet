@@ -53,6 +53,9 @@ namespace ViewsTemplates
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+                routes.MapSpaFallbackRoute(
+                    name: "fallback",
+                    defaults: new { controller = "Home", action = "Index" });
             });
         }
     }
