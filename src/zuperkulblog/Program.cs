@@ -21,6 +21,7 @@ namespace ZuperKulBlog
                 .UseIISIntegration()
                 .UseStartup<Startup>()
                 .Build();
+            host.Run();
         }
     }
 }
