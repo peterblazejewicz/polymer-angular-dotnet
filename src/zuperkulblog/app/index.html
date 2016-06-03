@@ -1,13 +1,24 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>zuperkulblog</title>
     <meta charset="utf-8">
+    <title>zuperkulblog</title>
+    <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="bower_components/font-roboto/roboto.html">
+    <link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
     <link rel="import" href="/src/blog-app/blog-app.html">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', 'Noto', sans-serif;
+            background-color: #fafafa;
+        }
+    </style>
   </head>
   <body>
-    <blog-app></blog-app>
+    <iron-ajax url="api/articles" auto last-response="{{articles}}"></iron-ajax>
+    <blog-app articles="[[articles]]"></blog-app>
   </body>
 </html>
