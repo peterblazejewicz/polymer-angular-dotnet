@@ -3,6 +3,10 @@
 C# Web API project with client application based on Polymer application layout
 blog template (ZUPERKÜLBLOG).
 
+## Description
+
+![preview](https://cloud.githubusercontent.com/assets/14539/15808372/b423cb5a-2b76-11e6-8797-ed19d30bdf00.png)
+
 ```
 dotnet restore
 dotnet watch
