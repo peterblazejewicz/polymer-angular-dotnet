@@ -302,7 +302,7 @@
         for (var i=0, cat; cat=articles[i]; i++) {
           if (cat.name === category) {
             for (var j=0, article; article=cat.items[j]; j++) {
-              if (article.id === id) {
+              if (article.id === parseInt(id, 10)) {
                 this.article = article;
                 return;
               }
