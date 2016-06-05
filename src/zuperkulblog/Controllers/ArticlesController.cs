@@ -1,8 +1,10 @@
-using System.Collections.Generic;
-using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using ZuperKulBlog.Models.Blog;
 
 namespace ZuperKulBlog.Controllers
@@ -15,7 +17,7 @@ namespace ZuperKulBlog.Controllers
         {
             HostingEnvironment = env;
         }
-        // GET api/values
+        // GET api/articles
         [HttpGet]
         public object Get()
         {
