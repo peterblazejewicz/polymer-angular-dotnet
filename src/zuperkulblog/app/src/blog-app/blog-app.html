@@ -78,7 +78,7 @@
         @apply(--layout-center-center);
         box-sizing: border-box;
       }
-      
+
       .nav-title-toolbar {
         color: #fff;
         width: 100vw;
@@ -93,7 +93,7 @@
         font-size: 60px;
         font-weight: 800;
       }
-      
+
       .category-page {
         min-height: 100vh;
       }
@@ -201,8 +201,7 @@
                 hidden$="[[_equal(pageData.page, 'detail')]]"></paper-icon-button>
 
             <!-- back button -->
-            <a
-                href="/[[categoryData.category]]/list"
+            <a href="/[[categoryData.category]]/list"
                 hidden$="[[_equal(pageData.page, 'list')]]">
               <paper-icon-button icon="app:arrow-back"></paper-icon-button>
             </a>
@@ -225,16 +224,16 @@
               <!-- category page (lazy-loaded) -->
               <template is="dom-if" if="[[_equal(category, [[categoryData.category.name]])]]">
                 <section class="category-page" name="[[category.name]]">
-  
+
                   <!-- 2-columns grid -->
                   <two-columns-grid column-width="396" gutter="4">
                     <template is="dom-repeat" items="[[category.items]]" as="article">
-                      <a is="article-headline" 
-                        href="/[[category.name]]/detail/[[article.id]]" 
+                      <a is="article-headline"
+                        href="/[[category.name]]/detail/[[article.id]]"
                         article="[[article]]"></a>
                     </template>
                   </two-columns-grid>
-                  
+
                 </section>
               </template>
             </template>
