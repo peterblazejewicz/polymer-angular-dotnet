@@ -134,7 +134,7 @@
     </style>
 
     <!-- setup routes -->
-    <app-location route="{{route}}" use-hash-as-path></app-location>
+    <app-location route="{{route}}"></app-location>
     <app-route
         route="{{route}}"
         pattern="/:category"
@@ -180,7 +180,7 @@
               attr-for-selected="name"
               on-iron-activate="_drawerSelected">
             <template is="dom-repeat" items="[[articles]]">
-              <a name="[[item.name]]" href="#/[[item.name]]/list">{{item.title}}</a>
+              <a name="[[item.name]]" href="/[[item.name]]/list">{{item.title}}</a>
             </template>
           </iron-selector>
 
@@ -202,7 +202,7 @@
 
             <!-- back button -->
             <a
-                href="#/[[categoryData.category]]/list"
+                href="/[[categoryData.category]]/list"
                 hidden$="[[_equal(pageData.page, 'list')]]">
               <paper-icon-button icon="app:arrow-back"></paper-icon-button>
             </a>
@@ -231,7 +231,7 @@
                     <template is="dom-repeat" items="[[category.items]]" as="article">
                       <a
                           is="article-headline"
-                          href="#/[[category.name]]/detail/[[article.id]]"
+                          href="/[[category.name]]/detail/[[article.id]]"
                           article="[[article]]"></a>
                     </template>
                   </two-columns-grid>
@@ -288,7 +288,7 @@
 
       attached: function() {
         this.async(function() {
-          if (!this.route.path) {
+          if (!this.route.path || this.route.path === '/') {
             this.set('route.path', '/art/list');
           }
         });
