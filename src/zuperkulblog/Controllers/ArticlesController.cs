@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using ZuperKulBlog.Models.Blog;
 
 namespace ZuperKulBlog.Controllers
 {
@@ -17,8 +19,13 @@ namespace ZuperKulBlog.Controllers
         [HttpGet]
         public object Get()
         {
-            string directory = Path.Combine(HostingEnvironment.WebRootPath, "data", "articles.json");
-            return directory;
+            string path = Path.Combine(HostingEnvironment.WebRootPath, "data", "articles.json");
+            if (System.IO.File.Exists(path) == false)
+            {
+                return NotFound("Can't find backing data file");
+            }
+            IEnumerable<Category> categories = JsonConvert.DeserializeObject<IEnumerable<Category>>(System.IO.File.ReadAllText(path));
+            return categories;
         }
 
     }
