@@ -1,11 +1,13 @@
 {
-  "name": "PolycastsBlog",
+  "name": "polystasts-blog",
   "description": "Polycasts Blog",
   "main": "index.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^1.4.0",
     "iron-ajax": "PolymerElements/iron-ajax#^1.2.0",
-    "iron-image": "PolymerElements/iron-image#^1.2.3"
+    "iron-image": "PolymerElements/iron-image#^1.2.3",
+    "app-route": "PolymerElements/app-route#^0.9.1",
+    "paper-spinner": "PolymerElements/paper-spinner#^1.2.0"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
