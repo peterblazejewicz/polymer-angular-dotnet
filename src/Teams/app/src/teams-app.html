@@ -1,15 +1,4 @@
-<link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/app-route/app-location.html">
-<link rel="import" href="../bower_components/app-route/app-route.html">
-<link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
-<link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
-<link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
-<link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
-<link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
-<link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
-<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
-<link rel="import" href="../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="common.html">
 <link rel="import" href="my-icons.html">
 
 <dom-module id="teams-app">
@@ -20,13 +9,13 @@
 
       :host {
         display: block;
-        --app-primary-color: #4285f4;
-        --app-secondary-color: black;
       }
 
-      app-header {
-        background-color: var(--app-primary-color);
-        color: #fff;
+      app-header,
+      app-drawer app-toolbar {
+        background-color: var(--app-primary-bg-color);
+        color: var(--app-primary-color);
+        border-top: 4px solid var(--app-brand-color);
       }
       app-header paper-icon-button {
         --paper-icon-button-ink-color: white;
@@ -50,6 +39,11 @@
         padding-left: 32px;
       }
 
+      .container {
+        display: block;
+        padding: 15px;
+      }
+
 
     </style>
 
@@ -60,10 +54,10 @@
         data="{{routeData}}"
         tail="{{subroute}}"></app-route>
 
-    <app-drawer-layout fullbleed>
+    <app-drawer-layout responsive-width="1980px" drawer-width="250px" fullbleed>
 
       <!-- Drawer content -->
-      <app-drawer>
+      <app-drawer swipe-open>
         <app-toolbar>Menu</app-toolbar>
         <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
           <a name="teams" href="/teams">Teams</a>
@@ -76,28 +70,31 @@
       <!-- Main content -->
       <app-header-layout has-scrolling-region>
 
-        <app-header condenses reveals effects="waterfall">
+        <app-header condenses reveals fixed shadow>
           <app-toolbar>
             <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
             <div title>My App</div>
           </app-toolbar>
         </app-header>
 
-        <iron-pages role="main" selected="[[page]]" attr-for-selected="name">
-          <teams-view name="teams"></teams-view>
-          <team-report-view name="team-report"></team-report-view>
-          <team-users-view name="team-users"></team-users-view>
-          <user-report-view name="user-report"></user-report-view>
-        </iron-pages>
-
+        <div class="container">
+          <iron-pages role="main" selected="[[page]]" attr-for-selected="name">
+            <teams-view name="teams"></teams-view>
+            <team-report-view name="team-report"></team-report-view>
+            <team-users-view name="team-users"></team-users-view>
+            <user-report-view name="user-report"></user-report-view>
+          </iron-pages>
+        </div>
+        
       </app-header-layout>
+
+      
 
     </app-drawer-layout>
 
   </template>
 
   <script>
-
     Polymer({
 
       is: 'teams-app',
@@ -127,7 +124,6 @@
       }
 
     });
-
   </script>
 
 </dom-module>
