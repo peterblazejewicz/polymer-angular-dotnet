@@ -31,3 +31,7 @@ node_modules
 
 # Optional REPL history
 .node_repl_history
+
+# No longer needed projects - just left them in local content
+# while removing from repo
+src/Teams
