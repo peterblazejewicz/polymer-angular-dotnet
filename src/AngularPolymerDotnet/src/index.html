@@ -1,9 +1,18 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
-  <title>AngularPolymerDotnet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <title>Expense Manager</title>
   <base href="/">
+  <meta name="mobile-web-app-capable" content="yes" />
+  <link rel="icon" sizes="192x192" href="images/app-icon-192.png" />
+  <meta name="application-name" content="Expense Manager">
+  <!-- iOS -->
+  <link rel="apple-touch-icon" href="images/app-icon-192.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Expense Manager">
 
   {{#unless environment.production}}
   <script src="/ember-cli-live-reload.js" type="text/javascript"></script>
@@ -14,7 +23,7 @@
 <body>
   <angular-polymer-dotnet-app>Loading...</angular-polymer-dotnet-app>
 
-  
+
 
     {{#each scripts.polyfills}}<script src="{{.}}"></script>{{/each}}
     <script>
@@ -23,7 +32,7 @@
       }).catch(console.error.bind(console));
     </script>
 
-  
+
 
 
 
