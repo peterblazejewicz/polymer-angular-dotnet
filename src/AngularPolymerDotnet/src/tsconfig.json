@@ -18,5 +18,9 @@
   "files": [
     "main.ts",
     "typings.d.ts"
+  ],
+  "exclude": [
+    "public/bower_components",
+    "bower_components"
   ]
 }
