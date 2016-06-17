@@ -7,23 +7,32 @@
     "Microsoft.AspNetCore.Mvc": "1.0.0-rc2-final",
     "Microsoft.AspNetCore.Server.IISIntegration": "1.0.0-rc2-final",
     "Microsoft.AspNetCore.Server.Kestrel": "1.0.0-rc2-final",
+    "Microsoft.AspNetCore.StaticFiles": "1.0.0-rc2-final",
+    "Microsoft.Extensions.Configuration.Binder": "1.0.0-rc2-final",
+    "Microsoft.Extensions.Configuration.CommandLine": "1.0.0-rc2-final",
     "Microsoft.Extensions.Configuration.EnvironmentVariables": "1.0.0-rc2-final",
     "Microsoft.Extensions.Configuration.FileExtensions": "1.0.0-rc2-final",
     "Microsoft.Extensions.Configuration.Json": "1.0.0-rc2-final",
-    "Microsoft.Extensions.Configuration.CommandLine": "1.0.0-rc2-final",
+    "Microsoft.Extensions.Configuration.UserSecrets": "1.0.0-rc2-final",
     "Microsoft.Extensions.Logging": "1.0.0-rc2-final",
     "Microsoft.Extensions.Logging.Console": "1.0.0-rc2-final",
     "Microsoft.Extensions.Logging.Debug": "1.0.0-rc2-final",
-    "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0-rc2-final"
+    "Newtonsoft.Json": "8.0.3"
   },
-
   "tools": {
+    "Microsoft.DotNet.Watcher.Tools": {
+      "version": "1.0.0-*",
+      "imports": "portable-net451+win8"
+    },
     "Microsoft.AspNetCore.Server.IISIntegration.Tools": {
+      "version": "1.0.0-preview1-final",
+      "imports": "portable-net45+win8+dnxcore50"
+    },
+    "Microsoft.Extensions.SecretManager.Tools": {
       "version": "1.0.0-preview1-final",
       "imports": "portable-net45+win8+dnxcore50"
     }
   },
-
   "frameworks": {
     "netcoreapp1.0": {
       "imports": [
@@ -33,32 +42,66 @@
       ]
     }
   },
-
   "buildOptions": {
     "emitEntryPoint": true,
-    "preserveCompilationContext": true
+    "preserveCompilationContext": true,
+    "compile": {
+      "exclude": [
+        "config",
+        "dist",
+        "e2e",
+        "node_modules",
+        "public",
+        "src",
+        "tmp",
+        "typings"
+      ]
+    }
   },
-
   "runtimeOptions": {
     "configProperties": {
       "System.GC.Server": true
     }
   },
-
   "publishOptions": {
     "include": [
-      "wwwroot",
-      "Views",
+      "dist",
       "appsettings.json",
+      "appsettings.Production.json",
+      "hosting.json",
       "web.config"
+    ],
+    "exclude": [
+      "config",
+      "e2e",
+      "src",
+      "tmp",
+      "typings"
+    ],
+    "excludeFiles": [
+      ".editorconfig",
+      ".gitignore",
+      "angular-cli.json",
+      "angular-cli-build.js",
+      "package.json",
+      "tsling.json",
+      "typings.json"
     ]
   },
-
   "scripts": {
-    "postpublish": [ "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%" ]
+    "precompile": [
+      "ng build"
+    ],
+    "prepublish": [
+      "npm install",
+      "bower install"
+    ],
+    "postpublish": [
+      "dotnet publish-iis --publish-folder %publish:OutputPath% --framework %publish:FullTargetFramework%"
+    ]
   },
-
   "tooling": {
     "defaultNamespace": "TourOfHeroes"
-  }
+  },
+  "userSecretsId": "aspnet-TourOfHeroes-612ff934-7e25-4aca-bb9c-d298c2008b91"
 }
