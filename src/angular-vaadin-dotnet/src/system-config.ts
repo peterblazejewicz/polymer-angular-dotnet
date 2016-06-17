@@ -29,6 +29,7 @@ const barrels: string[] = [
 
   // Thirdparty barrels.
   'rxjs',
+  '@vaadin/angular2-polymer',
 
   // App specific barrels.
   'app',
