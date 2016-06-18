@@ -1,6 +1,6 @@
-# Recipes for ASPNET Core and Polyme
+# Recipes for Dotnet Core, Polymer and Angular 2 
 
-Kestrel based (x-plat ASPNET Core web server) examples that use Polymer as client and C# as backend.
+Kestrel based (x-plat ASPNET Core web server) examples that use Polymer and Angular 2 as client with C# as backend.
 
 ## Description
 
