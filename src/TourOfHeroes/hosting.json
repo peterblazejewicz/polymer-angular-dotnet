@@ -1,6 +1,0 @@
-{
-  "applicationName": "Tour of Heroes",
-  "environment": "Development",
-  "server.urls": "http://+:5000",
-  "webroot": "dist"
-}
