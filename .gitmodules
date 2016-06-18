@@ -1,0 +1,3 @@
+[submodule "tour-of-heroes-for-dotnet"]
+	path = tour-of-heroes-for-dotnet
+	url = https://github.com/peterblazejewicz/tour-of-heroes-for-dotnet.git
