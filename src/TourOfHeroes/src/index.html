@@ -1,10 +1,26 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
+  <base href="/">
   <meta charset="utf-8">
   <title>TourOfHeroes</title>
-  <base href="/">
-
+  {{! polyfills }}
+  <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+  <script src="vendor/core-js/client/shim.min.js"></script>
+  {{! styles }}
+  <link rel="import" href="bower_components/iron-flex-layout/iron-flex-layout.html">
+  <link rel="import" href="bower_components/paper-styles/color.html">
+  <link rel="import" href="bower_components/paper-styles/default-theme.html">
+  <link rel="import" href="bower_components/paper-styles/typography.html">
+  <link rel="import" href="bower_components/paper-styles/shadow.html">
+  <style is="custom-style">
+    body {
+      @apply(--layout-fullbleed);
+      @apply(--paper-font-body1);
+      background: var(--primary-background-color);
+      color: var(--primary-text-color);
+    }
+  </style>
   {{#unless environment.production}}
   <script src="ember-cli-live-reload.js" type="text/javascript"></script>
   {{/unless}}
@@ -13,9 +29,6 @@
 </head>
 <body>
   <app-root>Loading...</app-root>
-
-
-
     {{#each scripts.polyfills}}
     <script src="{{.}}"></script>
     {{/each}}
