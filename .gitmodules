@@ -1,6 +1,6 @@
 [submodule "tour-of-heroes-for-dotnet"]
 	path = tour-of-heroes-for-dotnet
-	url = https://github.com/peterblazejewicz/tour-of-heroes-for-dotnet.github
+    url = https://github.com/peterblazejewicz/tour-of-heroes-for-dotnet.git
     
 [submodule "storyline-tracker-dotnet"]
 	path = storyline-tracker-dotnet
