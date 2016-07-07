@@ -8,3 +8,6 @@
 [submodule "jumpstart-dotnet"]
 	path = jumpstart-dotnet
 	url = https://github.com/peterblazejewicz/jumpstart-dotnet.git
+[submodule "todomvc-dotnet"]
+	path = todomvc-dotnet
+	url = https://github.com/peterblazejewicz/todomvc-dotnet.git
