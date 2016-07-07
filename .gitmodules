@@ -11,3 +11,6 @@
 [submodule "todomvc-dotnet"]
 	path = todomvc-dotnet
 	url = https://github.com/peterblazejewicz/todomvc-dotnet.git
+[submodule "reviewking-dotnet"]
+	path = reviewking-dotnet
+	url = https://github.com/peterblazejewicz/reviewking-dotnet.git
