@@ -14,3 +14,6 @@
 [submodule "reviewking-dotnet"]
 	path = reviewking-dotnet
 	url = https://github.com/peterblazejewicz/reviewking-dotnet.git
+[submodule "polymer-shop-dotnet"]
+	path = polymer-shop-dotnet
+	url = https://github.com/peterblazejewicz/polymer-shop-dotnet.git
